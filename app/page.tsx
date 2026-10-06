@@ -39,3 +39,4 @@ export default async function HomePage() {
     </section>
   </main>;
 }
+function HomeStat({ label, value }: { label: string; value: number }) { return <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><p className="text-3xl font-black">{value}</p><p className="mt-1 text-sm text-slate-500">{label}</p></article>; }
