@@ -28,7 +28,7 @@ export const airdrops: Airdrop[] = [
     description:"A placeholder opportunity demonstrating how TeckDrop will handle upcoming campaigns.",
     tasks:[
       {id:"demo-4",title:"Monitor official announcements",description:"Check official channels before taking any action.",taskUrl:null,estimatedMinutes:5,required:true},
-      {id:"demo-5",title:"Prepare a wallet",description:"Use a dedicated wallet only when the official campaign requires one.",estimatedMinutes:5,required:false}
+      {id:"demo-5",title:"Prepare a wallet",description:"Use a dedicated wallet only when the official campaign requires one.",taskUrl:null,estimatedMinutes:5,required:false}
     ]
   }
 ];
