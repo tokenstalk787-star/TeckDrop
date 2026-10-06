@@ -18,7 +18,7 @@ TeckDrop follows **Find → Verify → Track → Farm** and is designed as a 202
 - Snapshot/deadline calendar
 - Daily hunter feed
 - Protected admin CMS for airdrops, categories and intelligence analytics
-- Dynamic sitemap, public Intelligence Center, deadline/snapshot status and external URL safety validation
+- Dynamic sitemap, public Intelligence Center, deadline/snapshot status and external URL safety validation\n- Read-only public API at `/api/airdrops` and `/api/airdrops/[slug]`
 
 ## Admin
 
