@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { Airdrop as PublicAirdrop } from "@/data/airdrops";
+import { calculateOpportunityScore } from "@/lib/intelligence";
 
 function toNumber(value: unknown) {
   return value == null ? 0 : Number(value);
@@ -11,6 +12,8 @@ export function mapAirdrop(item: {
   verificationStatus: "VERIFIED" | "UNVERIFIED" | "COMMUNITY_REPORTED" | "WARNING";
   opportunityScore: number; difficulty: "EASY" | "MEDIUM" | "HARD";
   riskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; estimatedCostUsd: unknown; description: string;
+  rewardPotential: number; effortScore: number; costScore: number; riskScore: number; longevityScore: number; verificationConfidence: number; verificationNotes: string | null;
+  snapshotDate: Date | null; deadline: Date | null; websiteUrl: string | null; twitterUrl: string | null; discordUrl: string | null;
   tasks: Array<{ id:string; title:string; description:string|null; estimatedMinutes:number|null; required:boolean }>;
 }): PublicAirdrop {
   const verificationStatus = item.verificationStatus === "COMMUNITY_REPORTED" ? "WARNING" : item.verificationStatus;
