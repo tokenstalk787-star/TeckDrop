@@ -31,6 +31,8 @@ function getProgress(item: Airdrop) {
 export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
   const [slugs, setSlugs] = useState<string[]>([]);
   const [version, setVersion] = useState(0);
+  const [view, setView] = useState<"ALL" | "ACTIVE" | "TODO" | "COMPLETED">("ALL");
+  const [sort, setSort] = useState<"PRIORITY" | "SCORE" | "PROGRESS">("PRIORITY");
 
   useEffect(() => {
     const load = () => setSlugs(readList("teckdrop:watchlist"));
@@ -58,7 +60,7 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
     }).sort((a, b) => b.priority - a.priority);
   }, [tracked, version]);
 
-  const summary = useMemo(() => {
+  const visible = useMemo(() => {\n    const filtered = ranked.filter(({ item, progress }) => view === "ALL" || (view === "ACTIVE" && item.status === "ACTIVE") || (view === "TODO" && progress.percent < 100) || (view === "COMPLETED" && progress.percent === 100));\n    return [...filtered].sort((a, b) => sort === "SCORE" ? b.item.opportunityScore - a.item.opportunityScore : sort === "PROGRESS" ? b.progress.percent - a.progress.percent : b.priority - a.priority);\n  }, [ranked, sort, view]);\n\n  const summary = useMemo(() => {
     void version;
     const completedGuides = tracked.filter((item) => getProgress(item).percent === 100).length;
     const activeTracked = tracked.filter((item) => item.status === "ACTIVE").length;
@@ -113,7 +115,7 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
         </div>
 
         {tracked.length ? (
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 flex flex-wrap gap-2">\n            {(["ALL", "ACTIVE", "TODO", "COMPLETED"] as const).map((option) => <button key={option} type="button" onClick={() => setView(option)} className={\`rounded-lg border px-3 py-2 text-xs font-semibold transition ${view === option ? "border-violet-400/30 bg-violet-400/10 text-violet-200" : "border-white/10 text-slate-500 hover:text-slate-300"}\`}>{option === "ALL" ? "All" : option === "TODO" ? "To do" : option === "COMPLETED" ? "Completed" : "Active"}</button>)}\n            <select value={sort} onChange={(event) => setSort(event.target.value as typeof sort)} className="ml-auto rounded-lg border border-white/10 bg-[#0b1017] px-3 py-2 text-xs text-slate-400">\n              <option value="PRIORITY">Sort: Priority</option><option value="SCORE">Sort: Score</option><option value="PROGRESS">Sort: Progress</option>\n            </select>\n          </div>\n          <div className="mt-4 space-y-3">
             {[...tracked].sort((a, b) => b.opportunityScore - a.opportunityScore).map((item) => {
               const progress = getProgress(item);
               return (
@@ -123,7 +125,7 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
                       <div className="flex flex-wrap items-center gap-2">
                         <Link href={"/airdrop/" + item.slug} className="font-semibold hover:text-violet-300">{item.name}</Link>
                         <span className="rounded-full bg-white/5 px-2 py-1 text-[10px] text-slate-500">{item.status}</span>
-                        <span className="text-xs font-bold text-violet-300">Score {item.opportunityScore}</span>
+                        <span className="text-xs font-bold text-violet-300">Score {item.opportunityScore}</span><span className="text-[10px] text-slate-600">Priority {priority}</span>
                       </div>
                       <p className="mt-1 text-xs text-slate-500">{item.ecosystem} · {item.difficulty} · {item.riskLevel} risk</p>
                     </div>
