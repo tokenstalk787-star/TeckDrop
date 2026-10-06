@@ -13,6 +13,7 @@ export const airdrops: Airdrop[] = [
   {
     slug:"demo-verified-opportunity", name:"Demo Verified Opportunity", ecosystem:"EVM", tier:"Tier 1",
     status:"ACTIVE", verificationStatus:"VERIFIED", opportunityScore:91, difficulty:"MEDIUM", riskLevel:"LOW", estimatedCostUsd:2,
+    rewardPotential:95, effortScore:65, costScore:90, riskScore:95, longevityScore:85, verificationConfidence:95, verificationNotes:"Development placeholder only; production records must cite official evidence.", snapshotDate:null, deadline:null, websiteUrl:null, twitterUrl:null, discordUrl:null,
     description:"A demonstration opportunity used by TeckDrop while the live intelligence database is being built.",
     tasks:[
       {id:"demo-1",title:"Visit the official project",description:"Open the verified official project link and review the current campaign.",estimatedMinutes:3,required:true},
@@ -23,6 +24,7 @@ export const airdrops: Airdrop[] = [
   {
     slug:"demo-upcoming-opportunity", name:"Demo Upcoming Opportunity", ecosystem:"Solana", tier:"Tier 2",
     status:"UPCOMING", verificationStatus:"UNVERIFIED", opportunityScore:76, difficulty:"EASY", riskLevel:"MEDIUM", estimatedCostUsd:0,
+    rewardPotential:75, effortScore:85, costScore:100, riskScore:70, longevityScore:70, verificationConfidence:30, verificationNotes:"Development placeholder only; not a live campaign claim.", snapshotDate:null, deadline:null, websiteUrl:null, twitterUrl:null, discordUrl:null,
     description:"A placeholder opportunity demonstrating how TeckDrop will handle upcoming campaigns.",
     tasks:[
       {id:"demo-4",title:"Monitor official announcements",description:"Check official channels before taking any action.",estimatedMinutes:5,required:true},
