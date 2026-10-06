@@ -19,8 +19,8 @@ export async function logoutAdmin(){await clearAdminSession();redirect("/admin/l
 
 function taskRows(raw:string){
   return raw.split("\n").map(x=>x.trim()).filter(Boolean).map((line,index)=>{
-    const [title,minutes,required]=line.split("|").map(x=>x.trim());
-    return {title,description:null,order:index+1,required:required!=="false",difficulty:"MEDIUM" as const,estimatedMinutes:Number(minutes)||5};
+    const [title,minutes,required,taskUrl]=line.split("|").map(x=>x.trim());
+    return {title,description:null,taskUrl:taskUrl || null,order:index+1,required:required!=="false",difficulty:"MEDIUM" as const,estimatedMinutes:Number(minutes)||5};
   });
 }
 async function syncCategories(airdropId:string, raw:string){
