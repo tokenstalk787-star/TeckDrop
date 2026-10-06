@@ -22,7 +22,7 @@ export default async function HomePage() {\n  const airdrops = await getAirdrops
           <Link href="/dashboard" className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-slate-200 transition hover:bg-white/10">Open dashboard</Link>
         </div>
       </div>
-      <div className="mt-12 grid gap-4 sm:grid-cols-3">\n        <HomeStat label="Published opportunities" value={airdrops.length} />\n        <HomeStat label="Verified" value={verified} />\n        <HomeStat label="Average intelligence score" value={averageScore} />\n      </div>\n      <div className="mt-20 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">\n        <HomeStat label="Published opportunities" value={airdrops.length} />\n        <HomeStat label="Verified" value={verified} />\n        <HomeStat label="Active" value={active} />\n        <HomeStat label="Average intelligence score" value={averageScore} />\n      </div>\n      <div className="mt-20 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {features.map(({ icon: Icon, title, text }) => <article key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"><Icon className="h-6 w-6 text-violet-400" /><h2 className="mt-5 text-lg font-bold">{title}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></article>)}
       </div>
     </section>
