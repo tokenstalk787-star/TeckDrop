@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum AirdropStatus {
+  ACTIVE
+  UPCOMING
+  ENDED
+  WARNING
+  RUMOR
+}
+
+enum VerificationStatus {
+  VERIFIED
+  UNVERIFIED
+  COMMUNITY_REPORTED
+  WARNING
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Airdrop {
+  id                 String             @id @default(cuid())
+  name               String
+  slug               String             @unique
+  description        String             @db.Text
+  shortDescription   String?            @db.VarChar(500)
+  websiteUrl         String?
+  twitterUrl         String?
+  discordUrl         String?
+  logoUrl            String?
+  ecosystem          String?
+  tier               String?
+  status             AirdropStatus      @default(ACTIVE)
+  verificationStatus VerificationStatus @default(UNVERIFIED)
+  opportunityScore   Int                @default(0)
+  difficulty         Difficulty         @default(MEDIUM)
+  riskLevel          RiskLevel          @default(MEDIUM)
+  estimatedCostUsd   Decimal?           @db.Decimal(10, 2)
+  snapshotDate       DateTime?
+  deadline           DateTime?
+  lastVerifiedAt     DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  tasks              AirdropTask[]
+  categories         AirdropCategory[]
+
+  @@index([status])
+  @@index([verificationStatus])
+  @@index([ecosystem])
+  @@index([opportunityScore])
+  @@index([deadline])
+}
+
+model AirdropTask {
+  id               String     @id @default(cuid())
+  airdropId        String
+  title            String
+  description      String?    @db.Text
+  taskUrl          String?
+  order            Int        @default(0)
+  required         Boolean    @default(true)
+  difficulty       Difficulty @default(MEDIUM)
+  estimatedMinutes Int?
+  estimatedCostUsd Decimal?   @db.Decimal(10, 2)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  airdrop           Airdrop    @relation(fields: [airdropId], references: [id], onDelete: Cascade)
+
+  @@index([airdropId, order])
+}
+
+model Category {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  slug        String           @unique
+  description String?
+  createdAt   DateTime         @default(now())
+
+  airdrops    AirdropCategory[]
+}
+
+model AirdropCategory {
+  airdropId  String
+  categoryId String
+
+  airdrop    Airdrop  @relation(fields: [airdropId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([airdropId, categoryId])
+  @@index([categoryId])
+}

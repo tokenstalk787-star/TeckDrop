@@ -1,0 +1,8 @@
+import type {Metadata} from "next";
+import {AirdropDirectory} from "@/components/airdrop-directory";
+import {airdrops} from "@/data/airdrops";
+export const metadata:Metadata={title:"Airdrop Directory",description:"Discover and filter TeckDrop airdrop opportunities."};
+export default function AirdropsPage(){return <main className="min-h-screen">
+ <header className="border-b border-white/10"><div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8"><a href="/" className="text-xl font-bold">TeckDrop</a><a href="/airdrops" className="text-sm text-slate-300">Directory</a></div></header>
+ <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8"><div className="mb-8 max-w-3xl"><p className="text-sm font-semibold uppercase tracking-widest text-violet-400">Opportunity intelligence</p><h1 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl">Airdrop Directory</h1><p className="mt-4 text-slate-400">Search opportunities, compare their scores, and open a step-by-step farming guide.</p></div><AirdropDirectory airdrops={airdrops}/></section>
+ </main>;}
