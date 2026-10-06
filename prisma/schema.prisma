@@ -50,6 +50,13 @@ model Airdrop {
   status             AirdropStatus      @default(ACTIVE)
   verificationStatus VerificationStatus @default(UNVERIFIED)
   opportunityScore   Int                @default(0)
+  rewardPotential    Int                @default(50)
+  effortScore        Int                @default(50)
+  costScore          Int                @default(50)
+  riskScore          Int                @default(50)
+  longevityScore     Int                @default(50)
+  verificationConfidence Int            @default(0)
+  verificationNotes String?             @db.Text
   difficulty         Difficulty         @default(MEDIUM)
   riskLevel          RiskLevel          @default(MEDIUM)
   estimatedCostUsd   Decimal?           @db.Decimal(10, 2)
