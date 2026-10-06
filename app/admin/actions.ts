@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { clearAdminSession, isAdminAuthenticated, setAdminSession } from "@/lib/admin-auth";
 import { calculateOpportunityScore } from "@/lib/intelligence";
+import { validateExternalUrl } from "@/lib/url-safety";
 
 async function requireAdmin(){if(!(await isAdminAuthenticated())) redirect("/admin/login");}
 
@@ -20,7 +21,7 @@ export async function logoutAdmin(){await clearAdminSession();redirect("/admin/l
 function taskRows(raw:string){
   return raw.split("\n").map(x=>x.trim()).filter(Boolean).map((line,index)=>{
     const [title,minutes,required,taskUrl]=line.split("|").map(x=>x.trim());
-    return {title,description:null,taskUrl:taskUrl || null,order:index+1,required:required!=="false",difficulty:"MEDIUM" as const,estimatedMinutes:Number(minutes)||5};
+    return {title,description:null,taskUrl:validateExternalUrl(taskUrl || null,"Task URL"),order:index+1,required:required!=="false",difficulty:"MEDIUM" as const,estimatedMinutes:Number(minutes)||5};
   });
 }
 async function syncCategories(airdropId:string, raw:string){
@@ -36,8 +37,8 @@ async function syncCategories(airdropId:string, raw:string){
 function airdropData(form:FormData){
   return {
     name:text(form,"name"),slug:text(form,"slug"),description:text(form,"description"),
-    shortDescription:text(form,"shortDescription")||null,websiteUrl:text(form,"websiteUrl")||null,
-    twitterUrl:text(form,"twitterUrl")||null,discordUrl:text(form,"discordUrl")||null,
+    shortDescription:text(form,"shortDescription")||null,websiteUrl:validateExternalUrl(text(form,"websiteUrl")||null,"Website"),
+    twitterUrl:validateExternalUrl(text(form,"twitterUrl")||null,"X URL"),discordUrl:validateExternalUrl(text(form,"discordUrl")||null,"Discord URL"),
     ecosystem:text(form,"ecosystem")||null,tier:text(form,"tier")||null,
     status:text(form,"status") as "ACTIVE"|"UPCOMING"|"ENDED"|"WARNING"|"RUMOR",
     verificationStatus:text(form,"verificationStatus") as "VERIFIED"|"UNVERIFIED"|"COMMUNITY_REPORTED"|"WARNING",
