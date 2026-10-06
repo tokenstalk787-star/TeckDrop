@@ -20,7 +20,7 @@ async function main() {
 
   const demo = await prisma.airdrop.upsert({
     where: { slug: "demo-verified-opportunity" },
-    update: {},
+    update: { opportunityScore:89, rewardPotential:95, effortScore:65, costScore:90, riskScore:95, longevityScore:85, verificationConfidence:95, verificationNotes:"Development placeholder only; production records must cite official evidence." },
     create: {
       name: "Demo Verified Opportunity",
       slug: "demo-verified-opportunity",
