@@ -1,12 +1,3 @@
 import type { MetadataRoute } from "next";
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://teckdrop.vercel.app";
-  return [
-    { url: baseUrl, changeFrequency: "daily", priority: 1 },
-    { url: `${baseUrl}/airdrops`, changeFrequency: "daily", priority: 0.9 },
-    { url: `${baseUrl}/daily`, changeFrequency: "daily", priority: 0.8 },
-    { url: `${baseUrl}/calendar`, changeFrequency: "daily", priority: 0.8 },
-    { url: `${baseUrl}/dashboard`, changeFrequency: "weekly", priority: 0.6 },
-  ];
-}
+import { getAirdrops } from "@/lib/airdrops";
+export default async function sitemap():Promise<MetadataRoute.Sitemap>{const base=process.env.NEXT_PUBLIC_SITE_URL||"http://localhost:3000";const items=await getAirdrops();return [{url:base,lastModified:new Date(),changeFrequency:"daily",priority:1},{url:base+"/airdrops",lastModified:new Date(),changeFrequency:"daily",priority:.9},{url:base+"/daily",lastModified:new Date(),changeFrequency:"daily",priority:.8},{url:base+"/calendar",lastModified:new Date(),changeFrequency:"daily",priority:.7},{url:base+"/dashboard",lastModified:new Date(),changeFrequency:"weekly",priority:.6},...items.map(x=>({url:base+"/airdrop/"+x.slug,lastModified:new Date(),changeFrequency:"daily" as const,priority:.8}))]}
