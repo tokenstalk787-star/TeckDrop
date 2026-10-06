@@ -34,12 +34,13 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
 
   useEffect(() => {
     const load = () => setSlugs(readList("teckdrop:watchlist"));
+    const refreshProgress = () => setVersion((value) => value + 1);
     load();
     window.addEventListener("teckdrop:watchlist", load);
-    window.addEventListener("teckdrop:progress", () => setVersion((value) => value + 1));
+    window.addEventListener("teckdrop:progress", refreshProgress);
     return () => {
       window.removeEventListener("teckdrop:watchlist", load);
-      window.removeEventListener("teckdrop:progress", () => setVersion((value) => value + 1));
+      window.removeEventListener("teckdrop:progress", refreshProgress);
     };
   }, []);
 
