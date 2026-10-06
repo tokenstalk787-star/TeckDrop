@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { clearAdminSession, isAdminAuthenticated, setAdminSession } from "@/lib/admin-auth";
+import { calculateOpportunityScore } from "@/lib/intelligence";
 
 async function requireAdmin(){if(!(await isAdminAuthenticated())) redirect("/admin/login");}
 
@@ -40,7 +41,14 @@ function airdropData(form:FormData){
     ecosystem:text(form,"ecosystem")||null,tier:text(form,"tier")||null,
     status:text(form,"status") as "ACTIVE"|"UPCOMING"|"ENDED"|"WARNING"|"RUMOR",
     verificationStatus:text(form,"verificationStatus") as "VERIFIED"|"UNVERIFIED"|"COMMUNITY_REPORTED"|"WARNING",
-    opportunityScore:Math.min(100,Math.max(0,number(form,"opportunityScore"))),
+    opportunityScore:calculateOpportunityScore({rewardPotential:number(form,"rewardPotential",50),effortScore:number(form,"effortScore",50),costScore:number(form,"costScore",50),riskScore:number(form,"riskScore",50),longevityScore:number(form,"longevityScore",50),verificationConfidence:number(form,"verificationConfidence",0)}),
+    rewardPotential:Math.min(100,Math.max(0,number(form,"rewardPotential",50))),
+    effortScore:Math.min(100,Math.max(0,number(form,"effortScore",50))),
+    costScore:Math.min(100,Math.max(0,number(form,"costScore",50))),
+    riskScore:Math.min(100,Math.max(0,number(form,"riskScore",50))),
+    longevityScore:Math.min(100,Math.max(0,number(form,"longevityScore",50))),
+    verificationConfidence:Math.min(100,Math.max(0,number(form,"verificationConfidence",0))),
+    verificationNotes:text(form,"verificationNotes")||null,
     difficulty:text(form,"difficulty") as "EASY"|"MEDIUM"|"HARD",
     riskLevel:text(form,"riskLevel") as "LOW"|"MEDIUM"|"HIGH"|"CRITICAL",
     estimatedCostUsd:text(form,"estimatedCostUsd")?number(form,"estimatedCostUsd"):null,
