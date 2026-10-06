@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { getAdminAirdrops } from "@/lib/airdrops";
 import { deleteAirdrop } from "../actions";
-export default async function AdminAirdropsPage(){
+export default async function AdminAirdropsPage(){if(!(await isAdminAuthenticated()))redirect("/admin/login");
  const items=await getAdminAirdrops();
  return <main className="mx-auto max-w-7xl px-6 py-10"><div className="flex items-end justify-between gap-4"><div><p className="text-sm uppercase tracking-widest text-violet-400">Content management</p><h1 className="mt-2 text-4xl font-black">Airdrops</h1><p className="mt-2 text-slate-500">{items.length} records in MySQL.</p></div><Link href="/admin/airdrops/new" className="rounded-xl bg-violet-500 px-4 py-2.5 text-sm font-semibold">+ New airdrop</Link></div><div className="mt-8 overflow-hidden rounded-2xl border border-white/10"><table className="w-full text-left text-sm"><thead className="bg-white/[0.03] text-slate-500"><tr><th className="p-4">Name</th><th>Status</th><th>Verification</th><th>Score</th><th>Tasks</th><th className="p-4">Actions</th></tr></thead><tbody>{items.map(item=><tr key={item.id} className="border-t border-white/10"><td className="p-4"><div className="font-semibold">{item.name}</div><div className="text-xs text-slate-600">{item.slug}</div></td><td>{item.status}</td><td>{item.verificationStatus}</td><td>{item.opportunityScore}</td><td>{item.tasks.length}</td><td className="p-4"><div className="flex gap-3"><Link href={"/admin/airdrops/"+item.id+"/edit"} className="text-violet-300">Edit</Link><form action={deleteAirdrop}><input type="hidden" name="id" value={item.id}/><button className="text-rose-300">Delete</button></form></div></td></tr>)}</tbody></table></div></main>;
 }
