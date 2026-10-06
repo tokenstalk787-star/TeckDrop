@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { CalendarDays, LayoutDashboard, ListChecks, Zap } from "lucide-react";
+import { CalendarDays, Gauge, LayoutDashboard, ListChecks, Zap } from "lucide-react";
 
 const links = [
   { href: "/airdrops", label: "Airdrops", icon: ListChecks },
   { href: "/daily", label: "Daily", icon: Zap },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },\n  { href: "/intelligence", label: "Intelligence", icon: Gauge },
 ];
 
 export function SiteHeader() {
