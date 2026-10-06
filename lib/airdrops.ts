@@ -14,7 +14,7 @@ export function mapAirdrop(item: {
   riskLevel: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"; estimatedCostUsd: unknown; description: string;
   rewardPotential: number; effortScore: number; costScore: number; riskScore: number; longevityScore: number; verificationConfidence: number; verificationNotes: string | null;
   snapshotDate: Date | null; deadline: Date | null; websiteUrl: string | null; twitterUrl: string | null; discordUrl: string | null;
-  tasks: Array<{ id:string; title:string; description:string|null; estimatedMinutes:number|null; required:boolean }>;
+  tasks: Array<{ id:string; title:string; description:string|null; taskUrl:string|null; estimatedMinutes:number|null; required:boolean }>;
 }): PublicAirdrop {
   const verificationStatus = item.verificationStatus === "COMMUNITY_REPORTED" ? "WARNING" : item.verificationStatus;
   const status = item.status === "ENDED" || item.status === "RUMOR" ? "WARNING" : item.status;
@@ -23,7 +23,7 @@ export function mapAirdrop(item: {
     status, verificationStatus, opportunityScore:item.opportunityScore, difficulty:item.difficulty,
     riskLevel:item.riskLevel === "CRITICAL" ? "HIGH" : item.riskLevel,
     estimatedCostUsd:toNumber(item.estimatedCostUsd), description:item.description,
-    tasks:item.tasks.map(task=>({id:task.id,title:task.title,description:task.description||"",estimatedMinutes:task.estimatedMinutes||0,required:task.required}))
+    tasks:item.tasks.map(task=>({id:task.id,title:task.title,description:task.description||"",taskUrl:task.taskUrl||null,estimatedMinutes:task.estimatedMinutes||0,required:task.required}))
   };
 }
 
