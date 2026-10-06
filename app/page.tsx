@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarClock, CheckCircle2, Search, ShieldCheck, Target } from "lucide-react";
-import { SiteHeader } from "@/components/site-header";\nimport { getAirdrops } from "@/lib/airdrops";
+import { SiteHeader } from "@/components/site-header";
+import { getAirdrops } from "@/lib/airdrops";
 
 const features = [
   { icon: Search, title: "Discover", text: "Find promising airdrops and opportunities in one focused dashboard." },
@@ -9,7 +10,11 @@ const features = [
   { icon: CalendarClock, title: "Never miss", text: "Keep snapshots, deadlines, and important dates visible before they pass." },
 ];
 
-export default async function HomePage() {\n  const airdrops = await getAirdrops();\n  const verified = airdrops.filter((item) => item.verificationStatus === "VERIFIED").length;\n  const active = airdrops.filter((item) => item.status === "ACTIVE").length;\n  const averageScore = airdrops.length ? Math.round(airdrops.reduce((sum, item) => sum + item.opportunityScore, 0) / airdrops.length) : 0;
+export default async function HomePage() {
+  const airdrops = await getAirdrops();
+  const verified = airdrops.filter((item) => item.verificationStatus === "VERIFIED").length;
+  const active = airdrops.filter((item) => item.status === "ACTIVE").length;
+  const averageScore = airdrops.length ? Math.round(airdrops.reduce((sum, item) => sum + item.opportunityScore, 0) / airdrops.length) : 0;
   return <main className="min-h-screen">
     <SiteHeader />
     <section className="mx-auto max-w-7xl px-6 pb-20 pt-16 lg:px-8 lg:pt-24">
@@ -22,7 +27,13 @@ export default async function HomePage() {\n  const airdrops = await getAirdrops
           <Link href="/dashboard" className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-slate-200 transition hover:bg-white/10">Open dashboard</Link>
         </div>
       </div>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">\n        <HomeStat label="Published opportunities" value={airdrops.length} />\n        <HomeStat label="Verified" value={verified} />\n        <HomeStat label="Active" value={active} />\n        <HomeStat label="Average intelligence score" value={averageScore} />\n      </div>\n      <div className="mt-20 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <HomeStat label="Published opportunities" value={airdrops.length} />
+        <HomeStat label="Verified" value={verified} />
+        <HomeStat label="Active" value={active} />
+        <HomeStat label="Average intelligence score" value={averageScore} />
+      </div>
+      <div className="mt-20 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {features.map(({ icon: Icon, title, text }) => <article key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"><Icon className="h-6 w-6 text-violet-400" /><h2 className="mt-5 text-lg font-bold">{title}</h2><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></article>)}
       </div>
     </section>
