@@ -45,6 +45,19 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
   }, []);
 
   const tracked = useMemo(() => airdrops.filter((item) => slugs.includes(item.slug)), [airdrops, slugs]);
+  const ranked = useMemo(() => {
+    void version;
+    return [...tracked].map((item) => {
+      const progress = getProgress(item);
+      const statusBoost = item.status === "ACTIVE" ? 12 : item.status === "UPCOMING" ? 5 : -20;
+      const riskPenalty = item.riskLevel === "HIGH" ? 12 : item.riskLevel === "MEDIUM" ? 5 : 0;
+      const unfinishedBoost = progress.percent < 100 ? 8 : -20;
+      const priority = Math.max(0, Math.min(100, item.opportunityScore + statusBoost + unfinishedBoost - riskPenalty));
+      const reason = item.status === "ACTIVE" && progress.percent < 100 ? "Active + unfinished tasks" : item.status === "ACTIVE" ? "Active opportunity" : progress.percent < 100 ? "Finish before the campaign becomes active" : "Guide completed";
+      return { item, progress, priority, reason };
+    }).sort((a, b) => b.priority - a.priority);
+  }, [tracked, version]);
+
   const summary = useMemo(() => {
     void version;
     const completedGuides = tracked.filter((item) => getProgress(item).percent === 100).length;
@@ -60,6 +73,35 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
         <Stat label="Active tracked" value={summary.activeTracked} />
         <Stat label="Avg opportunity score" value={summary.averageScore} />
       </div>
+
+      {ranked.length > 0 && (
+        <section className="mt-8 rounded-2xl border border-violet-400/20 bg-violet-400/[0.05] p-5">
+          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-violet-300">Hunter priority</p>
+              <h2 className="mt-1 text-xl font-bold">What should I farm today?</h2>
+              <p className="mt-1 text-sm text-slate-400">Priority combines opportunity score, campaign status, risk and unfinished work.</p>
+            </div>
+            <Link href={"/airdrop/" + ranked[0].item.slug} className="rounded-xl bg-violet-500 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-violet-400">Start top priority</Link>
+          </div>
+          <div className="mt-5 grid gap-3">
+            {ranked.slice(0, 3).map(({ item, progress, priority, reason }, index) => (
+              <Link key={item.slug} href={"/airdrop/" + item.slug} className="rounded-xl border border-white/10 bg-black/10 p-4 transition hover:border-violet-400/30">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/5 text-xs font-bold text-slate-300">#{index + 1}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold text-white">{item.name}</span>
+                      <span className="text-xs font-bold text-violet-300">Priority {priority}</span>
+                    </div>
+                    <p className="mt-1 text-xs text-slate-500">{reason} · {progress.percent}% complete</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="mt-8">
         <div className="flex items-end justify-between gap-4">
