@@ -96,7 +96,8 @@ export function TaskChecklist({ airdrop }: { airdrop: Airdrop }) {
               </span>
               <span className="min-w-0 flex-1">
                 <span className={`block font-medium ${isCompleted ? "text-zinc-500 line-through" : "text-white"}`}>{task.title}</span>
-                {task.description && <span className="mt-1 block text-sm text-zinc-400">{task.description}</span>}\n                {task.taskUrl && <a href={task.taskUrl} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()} className="mt-2 inline-block text-xs font-semibold text-violet-300 hover:text-violet-200">Open official task ↗</a>}
+                {task.description && <span className="mt-1 block text-sm text-zinc-400">{task.description}</span>}
+                {task.taskUrl && <a href={task.taskUrl} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()} className="mt-2 inline-block text-xs font-semibold text-violet-300 hover:text-violet-200">Open official task ↗</a>}
               </span>
               <span className="shrink-0 text-right text-[11px] text-zinc-500">
                 <span className="block">{task.estimatedMinutes || 0} min</span>
