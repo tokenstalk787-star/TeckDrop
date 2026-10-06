@@ -165,7 +165,18 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
         <Stat label="Time left" value={summary.minutesLeft ? summary.minutesLeft + "m" : "Done"} />
       </div>
 
-      {farmingSlug && tracked.some((item) => item.slug === farmingSlug) && (\n        <section className="mt-8 rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.05] p-5">\n          {(() => { const current = tracked.find((item) => item.slug === farmingSlug)!; const progress = getProgress(current); return (\n            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">\n              <div><p className="text-xs font-semibold uppercase tracking-widest text-emerald-300">Current farming session</p><h2 className="mt-1 text-xl font-bold">{current.name}</h2><p className="mt-1 text-sm text-slate-400">{progress.done}/{progress.total} tasks complete · {progress.percent}% progress</p></div>\n              <div className="flex items-center gap-2"><Link href={"/airdrop/" + current.slug} className="rounded-lg bg-emerald-400 px-3 py-2 text-xs font-bold text-black hover:bg-emerald-300">Continue farming</Link><FarmNowToggle slug={current.slug} /></div>\n            </div>\n          ); })()}\n        </section>\n      )}\n\n      <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+      {farmingSlug && tracked.some((item) => item.slug === farmingSlug) && (
+        <section className="mt-8 rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.05] p-5">
+          {(() => { const current = tracked.find((item) => item.slug === farmingSlug)!; const progress = getProgress(current); return (
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div><p className="text-xs font-semibold uppercase tracking-widest text-emerald-300">Current farming session</p><h2 className="mt-1 text-xl font-bold">{current.name}</h2><p className="mt-1 text-sm text-slate-400">{progress.done}/{progress.total} tasks complete · {progress.percent}% progress</p></div>
+              <div className="flex items-center gap-2"><Link href={"/airdrop/" + current.slug} className="rounded-lg bg-emerald-400 px-3 py-2 text-xs font-bold text-black hover:bg-emerald-300">Continue farming</Link><FarmNowToggle slug={current.slug} /></div>
+            </div>
+          ); })()}
+        </section>
+      )}
+
+      <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-violet-300">Daily hunting summary</p>
@@ -274,7 +285,8 @@ export function HunterDashboard({ airdrops }: { airdrops: Airdrop[] }) {
                           </Link>
                           <span className="rounded-full bg-white/5 px-2 py-1 text-[10px] text-slate-500">{item.status}</span>
                           <span className="text-xs font-bold text-violet-300">Score {item.opportunityScore}</span>
-                          <span className="text-[10px] text-slate-600">Priority {priority}</span>\n                          <FarmNowToggle slug={item.slug} />
+                          <span className="text-[10px] text-slate-600">Priority {priority}</span>
+                          <FarmNowToggle slug={item.slug} />
                         </div>
                         <p className="mt-1 text-xs text-slate-500">
                           {item.ecosystem} · {item.difficulty} · {item.riskLevel} risk
