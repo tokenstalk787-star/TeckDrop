@@ -7,7 +7,7 @@ export type Airdrop = {
   estimatedCostUsd: number; description: string;
   rewardPotential: number; effortScore: number; costScore: number; riskScore: number; longevityScore: number; verificationConfidence: number; verificationNotes: string | null;
   snapshotDate: Date | null; deadline: Date | null; websiteUrl: string | null; twitterUrl: string | null; discordUrl: string | null;
-  tasks: { id: string; title: string; description: string; estimatedMinutes: number; required: boolean }[];
+  tasks: { id: string; title: string; description: string; taskUrl: string | null; estimatedMinutes: number; required: boolean }[];
 };
 export const airdrops: Airdrop[] = [
   {
@@ -16,9 +16,9 @@ export const airdrops: Airdrop[] = [
     rewardPotential:95, effortScore:65, costScore:90, riskScore:95, longevityScore:85, verificationConfidence:95, verificationNotes:"Development placeholder only; production records must cite official evidence.", snapshotDate:null, deadline:null, websiteUrl:null, twitterUrl:null, discordUrl:null,
     description:"A demonstration opportunity used by TeckDrop while the live intelligence database is being built.",
     tasks:[
-      {id:"demo-1",title:"Visit the official project",description:"Open the verified official project link and review the current campaign.",estimatedMinutes:3,required:true},
-      {id:"demo-2",title:"Complete the campaign task",description:"Complete the task exactly as described by the official campaign.",estimatedMinutes:10,required:true},
-      {id:"demo-3",title:"Save proof of completion",description:"Keep a transaction hash or screenshot when the campaign requires proof.",estimatedMinutes:5,required:false}
+      {id:"demo-1",title:"Visit the official project",description:"Open the verified official project link and review the current campaign.",taskUrl:null,estimatedMinutes:3,required:true},
+      {id:"demo-2",title:"Complete the campaign task",description:"Complete the task exactly as described by the official campaign.",taskUrl:null,estimatedMinutes:10,required:true},
+      {id:"demo-3",title:"Save proof of completion",description:"Keep a transaction hash or screenshot when the campaign requires proof.",taskUrl:null,estimatedMinutes:5,required:false}
     ]
   },
   {
@@ -27,7 +27,7 @@ export const airdrops: Airdrop[] = [
     rewardPotential:75, effortScore:85, costScore:100, riskScore:70, longevityScore:70, verificationConfidence:30, verificationNotes:"Development placeholder only; not a live campaign claim.", snapshotDate:null, deadline:null, websiteUrl:null, twitterUrl:null, discordUrl:null,
     description:"A placeholder opportunity demonstrating how TeckDrop will handle upcoming campaigns.",
     tasks:[
-      {id:"demo-4",title:"Monitor official announcements",description:"Check official channels before taking any action.",estimatedMinutes:5,required:true},
+      {id:"demo-4",title:"Monitor official announcements",description:"Check official channels before taking any action.",taskUrl:null,estimatedMinutes:5,required:true},
       {id:"demo-5",title:"Prepare a wallet",description:"Use a dedicated wallet only when the official campaign requires one.",estimatedMinutes:5,required:false}
     ]
   }
