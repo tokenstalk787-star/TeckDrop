@@ -20,7 +20,7 @@ export function mapAirdrop(item: {
   const status = item.status === "ENDED" || item.status === "RUMOR" ? "WARNING" : item.status;
   return {
     slug:item.slug, name:item.name, ecosystem:item.ecosystem || "Other", tier:item.tier || "Unranked",
-    status, verificationStatus, opportunityScore:item.opportunityScore, difficulty:item.difficulty,
+    status, verificationStatus, opportunityScore:calculateOpportunityScore({rewardPotential:item.rewardPotential,effortScore:item.effortScore,costScore:item.costScore,riskScore:item.riskScore,longevityScore:item.longevityScore,verificationConfidence:item.verificationConfidence}), difficulty:item.difficulty,
     riskLevel:item.riskLevel === "CRITICAL" ? "HIGH" : item.riskLevel,
     estimatedCostUsd:toNumber(item.estimatedCostUsd), description:item.description,
     tasks:item.tasks.map(task=>({id:task.id,title:task.title,description:task.description||"",taskUrl:task.taskUrl||null,estimatedMinutes:task.estimatedMinutes||0,required:task.required}))
