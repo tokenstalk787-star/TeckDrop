@@ -5,6 +5,8 @@ export type Airdrop = {
   verificationStatus: VerificationStatus; opportunityScore: number;
   difficulty: "EASY" | "MEDIUM" | "HARD"; riskLevel: "LOW" | "MEDIUM" | "HIGH";
   estimatedCostUsd: number; description: string;
+  rewardPotential: number; effortScore: number; costScore: number; riskScore: number; longevityScore: number; verificationConfidence: number; verificationNotes: string | null;
+  snapshotDate: Date | null; deadline: Date | null; websiteUrl: string | null; twitterUrl: string | null; discordUrl: string | null;
   tasks: { id: string; title: string; description: string; estimatedMinutes: number; required: boolean }[];
 };
 export const airdrops: Airdrop[] = [
